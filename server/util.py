@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import numpy as np
 
+# Parent directory of util.py file
 CURRENT_DIR = Path(__file__).resolve().parent
 
 # Global variables
@@ -14,6 +15,7 @@ __model = None
 
 def get_estimated_price(location, sqft, bhk, bath):
     """Return price for given feature"""
+
     try:
         # Find index for specific location
         loc_index = __data_columns.index(location).lower()
@@ -35,15 +37,20 @@ def get_estimated_price(location, sqft, bhk, bath):
 
 
 def get_location_names():
+    """Returns location names"""
+
     return __locations
 
 
 def load_saved_artifacts():
+    """Load the columns and model artifacts when app is loaded"""
+
     print("Loading saved artifacts...start")
     global __data_columns
     global __locations
     global __model
 
+    # If __data_columns, __locations, and __model is not set, load them and set till the app is running
     if not __data_columns or not __locations or not __model:
         # Load columns from the columns.json and returns all the columns starting from index 3,
         # as first three columns are not locations columns
@@ -58,6 +65,7 @@ def load_saved_artifacts():
         ) as f:
             __model = pickle.load(f)
 
+        # Artifacts loaded successfully!
         print("Including saved artifacts...done!")
 
 
